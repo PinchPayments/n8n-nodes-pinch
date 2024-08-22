@@ -6,29 +6,74 @@ import {
 	NodeOperationError,
 } from 'n8n-workflow';
 
-export class ExampleNode implements INodeType {
+
+import {
+	payerOperations,
+	tokenFields,
+	tokenOperations,
+} from './descriptions';
+
+export class Pinch implements INodeType {
 	description: INodeTypeDescription = {
-		displayName: 'Example Node',
-		name: 'exampleNode',
-		group: ['transform'],
+		displayName: 'Pinch',
+		name: 'pinch',
+		icon: 'file:pinchNode.svg',
+		group: [],
 		version: 1,
-		description: 'Basic Example Node',
+		subtitle: '={{$parameter["operation"] + ": " + $parameter["resource"]}}',
+		description: 'Node for interacting with the Pinch Payments API',
 		defaults: {
-			name: 'Example Node',
+			name: 'Pinch',
 		},
 		inputs: ['main'],
 		outputs: ['main'],
-		properties: [
-			// Node properties which the user gets displayed and
-			// can change on the node.
+		credentials:[
 			{
-				displayName: 'My String',
-				name: 'myString',
-				type: 'string',
-				default: '',
-				placeholder: 'Placeholder value',
-				description: 'The description text',
+				name: 'pinchApi',
+				required: true,
+			}
+		],
+		properties: [
+			{
+				displayName: 'Resource',
+				name: 'resource',
+				type: 'options',
+				noDataExpression: true,
+				options: [
+					{
+						name: 'Merchant',
+						value: 'merchant',
+					},
+					{
+						name: 'Payer',
+						value: 'payer',
+					},
+					{
+						name: 'Payment',
+						value: 'payment',
+					},
+					{
+						name: 'Source',
+						value: 'source',
+					},
+					{
+						name: 'Subscription',
+						value: 'subscription',
+					},
+					{
+						name: 'Token',
+						value: 'token',
+					},
+					{
+						name: 'Transfer',
+						value: 'transfer',
+					},
+				],
+				default: 'payment',
 			},
+			...tokenOperations,
+			...tokenFields,
+			...payerOperations
 		],
 	};
 
