@@ -112,10 +112,11 @@ export class PinchTrigger implements INodeType {
 
 				const events = this.getNodeParameter('events', []);
 
-				const endpoint = '/webhook_endpoints';
+				const endpoint = '/webhooks';
 
 				const body = {
 					uri: webhookUrl,
+					webhookFormat: 'camel-case'
 					//description: webhookDescription,
 					//enabled_events: events,
 				};
@@ -130,11 +131,11 @@ export class PinchTrigger implements INodeType {
 				if (
 					responseData.id === undefined ||
 					responseData.secret === undefined ||
-					responseData.status !== 'enabled'
+					responseData.uri === undefined
 				) {
 					// Required data is missing so was not successful
 					throw new NodeApiError(this.getNode(), responseData as JsonObject, {
-						message: 'Stripe webhook creation response did not contain the expected data.',
+						message: 'Pinch webhook creation response did not contain the expected data.',
 					});
 				}
 

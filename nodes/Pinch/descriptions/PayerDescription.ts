@@ -14,6 +14,12 @@ export const payerOperations: INodeProperties[] = [
 				description: 'Create a payer',
 				action: 'Create a payer',
 			},
+			{
+				name: 'Get',
+				value: 'get',
+				description: 'Get a payer',
+				action: 'Get a payer',
+			},
 		],
 		displayOptions: {
 			show: {

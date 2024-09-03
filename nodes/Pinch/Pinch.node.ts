@@ -1,4 +1,5 @@
 import {
+	IDataObject,
 	IExecuteFunctions,
 	INodeExecutionData,
 	INodeType,
@@ -6,12 +7,13 @@ import {
 	NodeOperationError,
 } from 'n8n-workflow';
 
-
 import {
 	payerOperations,
 	tokenFields,
 	tokenOperations,
 } from './descriptions';
+
+import { pinchApiRequest } from './helpers';
 
 export class Pinch implements INodeType {
 	description: INodeTypeDescription = {
@@ -84,38 +86,137 @@ export class Pinch implements INodeType {
 	async execute(this: IExecuteFunctions): Promise<INodeExecutionData[][]> {
 		const items = this.getInputData();
 
-		let item: INodeExecutionData;
-		let myString: string;
+		const resource = this.getNodeParameter('resource', 0);
+		const operation = this.getNodeParameter('operation', 0);
 
-		// Iterates over all input items and add the key "myString" with the
-		// value the parameter "myString" resolves to.
-		// (This could be a different value for each item in case it contains an expression)
-		for (let itemIndex = 0; itemIndex < items.length; itemIndex++) {
+		let responseData;
+		const returnData: INodeExecutionData[] = [];
+
+		for (let i = 0; i < items.length; i++) {
 			try {
-				myString = this.getNodeParameter('myString', itemIndex, '') as string;
-				item = items[itemIndex];
+				if (resource === 'payer') {
+					// *********************************************************************
+					//                             payer
+					// *********************************************************************
 
-				item.json['myString'] = myString;
-			} catch (error) {
-				// This node should never fail but we want to showcase how
-				// to handle errors.
-				if (this.continueOnFail()) {
-					items.push({ json: this.getInputData(itemIndex)[0].json, error, pairedItem: itemIndex });
-				} else {
-					// Adding `itemIndex` allows other workflows to handle this error
-					if (error.context) {
-						// If the error thrown already contains the context property,
-						// only append the itemIndex
-						error.context.itemIndex = itemIndex;
-						throw error;
+					// https://docs.getpinch.com.au/reference/save-payer
+
+					if (operation === 'get') {
+						// ----------------------------------
+						//          payer: get
+						// ----------------------------------
+
+						const payerId = this.getNodeParameter('payerId', i);
+						responseData = await pinchApiRequest.call(
+							this,
+							'GET',
+							`/payers/${payerId}`,
+							{},
+							{},
+						);
 					}
-					throw new NodeOperationError(this.getNode(), error, {
-						itemIndex,
-					});
+				} else if (resource === 'source') {
+					// *********************************************************************
+					//                             source
+					// *********************************************************************
+
+					// https://stripe.com/docs/api/sources
+
+					// if (operation === 'create') {
+					// 	// ----------------------------------
+					// 	//         source: create
+					// 	// ----------------------------------
+
+					// 	const customerId = this.getNodeParameter('customerId', i);
+
+					// 	const body = {
+					// 		type: this.getNodeParameter('type', i),
+					// 		amount: this.getNodeParameter('amount', i),
+					// 		currency: this.getNodeParameter('currency', i),
+					// 	} as IDataObject;
+
+					// 	const additionalFields = this.getNodeParameter('additionalFields', i);
+
+					// 	if (!isEmpty(additionalFields)) {
+					// 		Object.assign(body, adjustMetadata(additionalFields));
+					// 	}
+
+					// 	responseData = await pinchApiRequest.call(this, 'POST', '/sources', body, {});
+
+					// 	// attach source to customer
+					// 	const endpoint = `/customers/${customerId}/sources`;
+					// 	await pinchApiRequest.call(this, 'POST', endpoint, { source: responseData.id }, {});
+					// } else if (operation === 'delete') {
+					// 	// ----------------------------------
+					// 	//          source: delete
+					// 	// ----------------------------------
+
+					// 	const sourceId = this.getNodeParameter('sourceId', i);
+					// 	const customerId = this.getNodeParameter('customerId', i);
+					// 	const endpoint = `/customers/${customerId}/sources/${sourceId}`;
+					// 	responseData = await pinchApiRequest.call(this, 'DELETE', endpoint, {}, {});
+					// } else if (operation === 'get') {
+					// 	// ----------------------------------
+					// 	//          source: get
+					// 	// ----------------------------------
+
+					// 	const sourceId = this.getNodeParameter('sourceId', i);
+					// 	responseData = await pinchApiRequest.call(this, 'GET', `/sources/${sourceId}`, {}, {});
+					// }
+				} else if (resource === 'token') {
+					// *********************************************************************
+					//                             token
+					// *********************************************************************
+
+					// https://stripe.com/docs/api/tokens
+
+					if (operation === 'create') {
+						// ----------------------------------
+						//          token: create
+						// ----------------------------------
+
+						const type = this.getNodeParameter('type', i);
+						const body = {} as IDataObject;
+
+						if (type !== 'cardToken') {
+							throw new NodeOperationError(
+								this.getNode(),
+								'Only card token creation implemented.',
+								{ itemIndex: i },
+							);
+						}
+
+						body.card = {
+							number: this.getNodeParameter('number', i),
+							exp_month: this.getNodeParameter('expirationMonth', i),
+							exp_year: this.getNodeParameter('expirationYear', i),
+							cvc: this.getNodeParameter('cvc', i),
+						};
+
+						responseData = await pinchApiRequest.call(this, 'POST', '/tokens', body, {});
+					}
 				}
+			} catch (error) {
+				if (this.continueOnFail(error)) {
+					const executionErrorData = this.helpers.constructExecutionMetaData(
+						this.helpers.returnJsonArray({ error: error.message }),
+						{ itemData: { item: i } },
+					);
+					returnData.push(...executionErrorData);
+					continue;
+				}
+
+				throw error;
 			}
+
+			const executionData = this.helpers.constructExecutionMetaData(
+				this.helpers.returnJsonArray(responseData as IDataObject[]),
+				{ itemData: { item: i } },
+			);
+
+			returnData.push(...executionData);
 		}
 
-		return this.prepareOutputData(items);
+		return [returnData];
 	}
 }
