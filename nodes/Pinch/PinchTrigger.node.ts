@@ -19,6 +19,7 @@ export class PinchTrigger implements INodeType {
 		group: ['trigger'],
 		version: 1,
 		description: 'Handle Pinch events via webhooks',
+		documentationUrl: 'https://docs.getpinch.com.au/docs/events', // TODO: add n8n docs page
 		defaults: {
 			name: 'Pinch Trigger',
 		},
@@ -56,7 +57,7 @@ export class PinchTrigger implements INodeType {
 					{
 						name: 'Payer Created',
 						value: 'payer-created',
-						description: 'Occurs whenever a new Payer is created',
+						description: 'Occurs whenever a new Payer record is created',
 					},
 					{
 						name: 'Payer Updated',
@@ -64,9 +65,74 @@ export class PinchTrigger implements INodeType {
 						description: 'Occurs whenever a Payer record is updated',
 					},
 					{
+						name: 'Subscription Cancelled',
+						value: 'subscription-cancelled',
+						description: 'Occurs whenever a Subscription is cancelled',
+					},
+					{
+						name: 'Subscription Created',
+						value: 'subscription-created',
+						description: 'Occurs whenever a Subscription is created for a Payer',
+					},
+					{
 						name: 'Subscription Complete',
 						value: 'subscription-complete',
-						description: 'Occurs whenever a Subscription is completed',
+						description: 'Occurs whenever a Subscription is run to completion',
+					},
+					{
+						name: 'Bank Results',
+						value: 'bank-results',
+						description: 'Occurs whenever a bank account transaction return (as these take time to process) and could result in a dishonour status',
+					},
+					{
+						name: 'Scheduled Process',
+						value: 'scheduled-process',
+						description: 'Occurs whenever scheduled Payments are processed (daily on business days)',
+					},
+					{
+						name: 'Transfer',
+						value: 'transfer',
+						description: 'Occurs whenever a transfer is created to settle funds to a Merchant',
+					},
+					{
+						name: 'Realtime Payment',
+						value: 'realtime-payment',
+						description: 'Occurs whenever a realtime payment is executed',
+					},
+					{
+						name: 'Payment Created',
+						value: 'payment-created',
+						description: 'Occurs wheneverr a Payment is created in Pinch. This could be done through the Save Payment endpoint or when a Subscription creates its payments',
+					},
+					{
+						name: 'Refund Created',
+						value: 'refund-created',
+						description: 'Occurs whenever a Refund is created',
+					},
+					{
+						name: 'Refund Updated',
+						value: 'refund-updated',
+						description: 'Occurs whenever a Refund is updated (such as when the refund status gets updated through its processing)',
+					},
+					{
+						name: 'Compliance Updated',
+						value: 'compliance-updated',
+						description: 'Occurs whenever a Merchant record is updated that will result in a compliance check (such as updating a Merchants bank account or when a Merchant uploads a document for verification)',
+					},
+					{
+						name: 'Dispute Created',
+						value: 'dispute-created',
+						description: 'Occurs whenever a Dispute is created',
+					},
+					{
+						name: 'Dispute Updated',
+						value: 'dispute-updated',
+						description: 'Occurs whenever a Dispute is updated',
+					},
+					{
+						name: 'Merchant Compliance Updated',
+						value: 'merchant-compliance-updated',
+						description: 'Occurs whenever a Merchants compliance information is updated by a compliance officer, typically this happens when a Merchants verification status changes',
 					}
 				],
 			},

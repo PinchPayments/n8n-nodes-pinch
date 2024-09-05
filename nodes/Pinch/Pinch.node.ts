@@ -24,6 +24,7 @@ export class Pinch implements INodeType {
 		version: 1,
 		subtitle: '={{$parameter["operation"] + ": " + $parameter["resource"]}}',
 		description: 'Node for interacting with the Pinch Payments API',
+		documentationUrl: 'https://docs.getpinch.com.au/', // TODO: add n8n docs page
 		defaults: {
 			name: 'Pinch',
 		},
