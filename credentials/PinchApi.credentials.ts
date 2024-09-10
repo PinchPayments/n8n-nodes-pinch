@@ -67,18 +67,10 @@ export class PinchApi implements ICredentialType {
             grant_type: 'client_credentials',
             scope: 'api1'
         };
-        // const formData = new FormData();
-        // formData.append('grant_type', 'client_credentials');
-        // formData.append('scope', 'api1');
         const { access_token } = (await this.helpers.httpRequest({
             method: 'POST',
-            //url: 'https://n8n.dkdevelopment.net:2096/webhook/64da1b6c-ff12-4967-8165-53a0ed67ca6b',
             url: 'https://auth.getpinch.com.au/connect/token',
             body: body,
-            // body: {
-            //     grant_type: 'client_credentials',
-            //     scope: 'api1'
-            // },
             json: false,
             headers: {
                 'Authorization': authHeader,

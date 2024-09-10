@@ -8,9 +8,12 @@ import {
 } from 'n8n-workflow';
 
 import {
+	payerFields,
 	payerOperations,
-	tokenFields,
-	tokenOperations,
+	paymentOperations,
+	paymentFields
+	// tokenFields,
+	// tokenOperations,
 } from './descriptions';
 
 import { pinchApiRequest } from './helpers';
@@ -43,10 +46,10 @@ export class Pinch implements INodeType {
 				type: 'options',
 				noDataExpression: true,
 				options: [
-					{
-						name: 'Merchant',
-						value: 'merchant',
-					},
+					// {
+					// 	name: 'Merchant',
+					// 	value: 'merchant',
+					// },
 					{
 						name: 'Payer',
 						value: 'payer',
@@ -55,28 +58,31 @@ export class Pinch implements INodeType {
 						name: 'Payment',
 						value: 'payment',
 					},
-					{
-						name: 'Source',
-						value: 'source',
-					},
-					{
-						name: 'Subscription',
-						value: 'subscription',
-					},
-					{
-						name: 'Token',
-						value: 'token',
-					},
-					{
-						name: 'Transfer',
-						value: 'transfer',
-					},
+					// {
+					// 	name: 'Source',
+					// 	value: 'source',
+					// },
+					// {
+					// 	name: 'Subscription',
+					// 	value: 'subscription',
+					// },
+					// {
+					// 	name: 'Token',
+					// 	value: 'token',
+					// },
+					// {
+					// 	name: 'Transfer',
+					// 	value: 'transfer',
+					// },
 				],
-				default: 'payment',
+				default: 'payer',
 			},
-			...tokenOperations,
-			...tokenFields,
-			...payerOperations
+			// ...tokenOperations,
+			// ...tokenFields,
+			...payerOperations,
+			...payerFields,
+			...paymentOperations,
+			...paymentFields
 		],
 	};
 
@@ -100,7 +106,7 @@ export class Pinch implements INodeType {
 					//                             payer
 					// *********************************************************************
 
-					// https://docs.getpinch.com.au/reference/save-payer
+					// https://docs.getpinch.com.au/reference/get-payer
 
 					if (operation === 'get') {
 						// ----------------------------------
@@ -116,12 +122,46 @@ export class Pinch implements INodeType {
 							{},
 						);
 					}
+				} else if (resource === 'payment') {
+					// *********************************************************************
+					//                             payment
+					// *********************************************************************
+
+					// https://docs.getpinch.com.au/reference/get-payment
+
+					if (operation === 'get') {
+						// ----------------------------------
+						//          payment: get
+						// ----------------------------------
+
+						const paymentId = this.getNodeParameter('paymentId', i);
+						responseData = await pinchApiRequest.call(
+							this,
+							'GET',
+							`/payments/${paymentId}`,
+							{},
+							{},
+						);
+					} else if (operation === 'for-payer') {
+						// ----------------------------------
+						//          payment: for-payer
+						// ----------------------------------
+
+						const payerId = this.getNodeParameter('payerId', i);
+						responseData = await pinchApiRequest.call(
+							this,
+							'GET',
+							`/payments/payer/${payerId}`,
+							{},
+							{},
+						);
+					}
 				} else if (resource === 'source') {
 					// *********************************************************************
 					//                             source
 					// *********************************************************************
 
-					// https://stripe.com/docs/api/sources
+					// https://docs.getpinch.com.au/reference/create-payment-source
 
 					// if (operation === 'create') {
 					// 	// ----------------------------------
@@ -169,7 +209,7 @@ export class Pinch implements INodeType {
 					//                             token
 					// *********************************************************************
 
-					// https://stripe.com/docs/api/tokens
+					// https://docs.getpinch.com.au/reference/tokenise
 
 					if (operation === 'create') {
 						// ----------------------------------
