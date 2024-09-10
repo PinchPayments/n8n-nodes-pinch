@@ -2,7 +2,7 @@
 
 This is an n8n community node. It lets you use Pinch Payments in your n8n workflows.
 
-Pinch Payments does payments and junk.
+Pinch Payments is a PCI Compliant, Australian payments platform offering automated bank account, direct debit, and credit card payments for standard and repeating payments through a REST API Gateway.
 
 [n8n](https://n8n.io/) is a [fair-code licensed](https://docs.n8n.io/reference/license/) workflow automation platform.
 
