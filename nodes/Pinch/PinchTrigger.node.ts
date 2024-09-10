@@ -102,7 +102,7 @@ export class PinchTrigger implements INodeType {
 					{
 						name: 'Payment Created',
 						value: 'payment-created',
-						description: 'Occurs wheneverr a Payment is created in Pinch. This could be done through the Save Payment endpoint or when a Subscription creates its payments',
+						description: 'Occurs whenever a Payment is created in Pinch. This could be done through the Save Payment endpoint or when a Subscription creates its payments.',
 					},
 					{
 						name: 'Refund Created',

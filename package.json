@@ -39,7 +39,8 @@
       "dist/credentials/PinchApi.credentials.js"
     ],
     "nodes": [
-      "dist/nodes/PinchNode/PinchNode.node.js"
+      "dist/nodes/Pinch/Pinch.node.js",
+      "dist/nodes/Pinch/PinchTrigger.node.js"
     ]
   },
   "devDependencies": {
