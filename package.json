@@ -1,7 +1,7 @@
 {
   "name": "n8n-nodes-pinch",
   "version": "0.1.0",
-  "description": "",
+  "description": "n8n nodes for interacting with the Pinch Payments API",
   "keywords": [
     "n8n-community-node-package"
   ],
