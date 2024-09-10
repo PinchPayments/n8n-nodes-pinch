@@ -18,36 +18,36 @@ Pinch Payments does payments and junk.
 
 Follow the [installation guide](https://docs.n8n.io/integrations/community-nodes/installation/) in the n8n community nodes documentation.
 
+Use the package at `n8n-nodes-pinch`.
+
 ## Operations
 
-_List the operations supported by your node._
+_None yet but the credentials can be used to make Rest API calls_
 
 ## Credentials
 
-_If users need to authenticate with the app/service, provide details here. You should include prerequisites (such as signing up with the service), available authentication methods, and how to set them up._
+* Add credential in your n8n instance and select **Pinch API**
+* Register for a [Pinch Developer Account](https://auth.getpinch.com.au/Register)
+* Navigate to the API Keys page
+* Create an Application
+* Copy Application Id and Secret Key then paste them into n8n credential
+* Click Save (this will test the credentials)
+* Account connected
 
 ## Compatibility
 
-_State the minimum n8n version, as well as which versions you test against. You can also include any known version incompatibility issues._
+Tested with v1.57.0 and up but may work in previous versions.
 
 ## Usage
 
-_This is an optional section. Use it to help users with any difficult or confusing aspects of the node._
-
-_By the time users are looking for community nodes, they probably already know n8n basics. But if you expect new users, you can link to the [Try it out](https://docs.n8n.io/try-it-out/) documentation to help them get started._
+Add the Pinch Trigger node to set up webhook events with the Pinch API.
 
 ## Resources
 
 * [n8n community nodes documentation](https://docs.n8n.io/integrations/community-nodes/)
-* _Link to app/service documentation._
-
-## Local Development
-* `npm i -g pnpm`
-* `pnpm install`
-* `npm run build`
+* [Pinch API Docs](https://docs.getpinch.com.au)
+* [Pinch Developer Pricing](https://getpinch.com.au/features/payments-api-for-developers#pricing)
 
 ## Version history
 
-_This is another optional section. If your node has multiple versions, include a short description of available versions and what changed, as well as any compatibility impact._
-
-
+First release of the Pinch node with the webhook trigger node and the credentials.
