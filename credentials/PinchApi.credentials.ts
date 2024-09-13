@@ -59,6 +59,34 @@ export class PinchApi implements ICredentialType {
             ],
             default: 'live',
         },
+        {
+            displayName: 'Advanced Options',
+            name:'showAdvancedOptions',
+            type: 'boolean',
+            default: false
+        },
+        {
+            displayName: 'Auth Base Url',
+            name: 'authBaseUrl',
+            type: 'string',
+            default: 'https://auth.getpinch.com.au',
+            displayOptions: {
+                show: {
+                    showAdvancedOptions: [true]
+                }
+            }
+        },
+        {
+            displayName: 'API Base Url',
+            name: 'apiBaseUrl',
+            type: 'string',
+            default: 'https://api.getpinch.com.au',
+            displayOptions: {
+                show: {
+                    showAdvancedOptions: [true]
+                }
+            }
+        },
     ];
 
     async preAuthentication(this: IHttpRequestHelper, credentials: ICredentialDataDecryptedObject) {
@@ -67,9 +95,10 @@ export class PinchApi implements ICredentialType {
             grant_type: 'client_credentials',
             scope: 'api1'
         };
+        const authBaseUrl = credentials.authBaseUrl ?? 'https://auth.getpinch.com.au';
         const { access_token } = (await this.helpers.httpRequest({
             method: 'POST',
-            url: 'https://auth.getpinch.com.au/connect/token',
+            url: `${authBaseUrl}/connect/token`,
             body: body,
             json: false,
             headers: {
@@ -91,7 +120,7 @@ export class PinchApi implements ICredentialType {
 
     test: ICredentialTestRequest = {
         request: {
-            baseURL: '=https://api.getpinch.com.au/{{$credentials.environment}}/health/auth',
+            baseURL: '={{$credentials.apiBaseUrl ?? \'https://api.getpinch.com.au\'}}/{{$credentials.environment}}/health/auth',
             url: '',
         },
     };
