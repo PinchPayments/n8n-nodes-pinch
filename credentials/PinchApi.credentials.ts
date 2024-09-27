@@ -114,7 +114,8 @@ export class PinchApi implements ICredentialType {
         properties: {
             headers: {
                 Authorization: '=Bearer {{$credentials.sessionToken}}',
-                'pinch-version': '2020.1'
+                'Pinch-Version': '2020.1',
+                'User-Agent': 'n8n'
             },
         },
     };
