@@ -49,5 +49,9 @@
   },
   "peerDependencies": {
     "n8n-workflow": "*"
+  },
+  "dependencies": {
+    "@types/lodash": "^4.17.15",
+    "lodash": "^4.17.21"
   }
 }

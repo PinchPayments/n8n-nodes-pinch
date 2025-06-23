@@ -158,7 +158,6 @@ export class PinchTrigger implements INodeType {
 					if (error.httpCode === '404' || error.message.includes('resource_missing')) {
 						// Webhook does not exist
 						delete webhookData.webhookId;
-						delete webhookData.webhookEvents;
 						delete webhookData.webhookSecret;
 
 						return false;
@@ -182,9 +181,9 @@ export class PinchTrigger implements INodeType {
 
 				const body = {
 					uri: webhookUrl,
-					webhookFormat: 'camel-case'
+					webhookFormat: 'camel-case',
 					//description: webhookDescription,
-					//enabled_events: events,
+					eventTypes: events
 				};
 
 				let responseData;
@@ -207,7 +206,6 @@ export class PinchTrigger implements INodeType {
 
 				const webhookData = this.getWorkflowStaticData('node');
 				webhookData.webhookId = responseData.id as string;
-				webhookData.webhookEvents = events;
 				webhookData.webhookSecret = responseData.secret as string;
 
 				return true;
@@ -228,7 +226,6 @@ export class PinchTrigger implements INodeType {
 					// Remove from the static workflow data so that it is clear
 					// that no webhooks are registered anymore
 					delete webhookData.webhookId;
-					delete webhookData.webhookEvents;
 					delete webhookData.webhookSecret;
 				}
 

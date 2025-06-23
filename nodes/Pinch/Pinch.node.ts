@@ -17,6 +17,8 @@ import {
 } from './descriptions';
 
 import { pinchApiRequest } from './helpers';
+import { isEmpty } from 'lodash';
+import { paymentLinkFields, paymentLinkOperations } from './descriptions/PaymentLinkDescription';
 
 export class Pinch implements INodeType {
 	description: INodeTypeDescription = {
@@ -58,6 +60,10 @@ export class Pinch implements INodeType {
 						name: 'Payment',
 						value: 'payment',
 					},
+					{
+						name: 'PaymentLink',
+						value: 'payment-link',
+					},
 					// {
 					// 	name: 'Source',
 					// 	value: 'source',
@@ -82,7 +88,9 @@ export class Pinch implements INodeType {
 			...payerOperations,
 			...payerFields,
 			...paymentOperations,
-			...paymentFields
+			...paymentFields,
+			...paymentLinkOperations,
+			...paymentLinkFields
 		],
 	};
 
@@ -119,6 +127,27 @@ export class Pinch implements INodeType {
 							'GET',
 							`/payers/${payerId}`,
 							{},
+							{},
+						);
+					} else if (operation == 'create') {
+						// ----------------------------------
+						//          payer: create
+						// ----------------------------------
+						const body = {
+							name: this.getNodeParameter('name', i),
+						} as IDataObject;
+
+						const additionalFields = this.getNodeParameter('additionalFields', i);
+
+						if (!isEmpty(additionalFields)) {
+							Object.assign(body, additionalFields);
+						}
+
+						responseData = await pinchApiRequest.call(
+							this,
+							'GET',
+							'/payers/',
+							body,
 							{},
 						);
 					}
@@ -235,6 +264,20 @@ export class Pinch implements INodeType {
 						};
 
 						responseData = await pinchApiRequest.call(this, 'POST', '/tokens', body, {});
+					}
+				} else if (resource === 'payment-link') {
+					// *********************************************************************
+					//                             payment-link
+					// *********************************************************************
+					if (operation === 'create') {
+						// ----------------------------------
+						//          payment-link: create
+						// ----------------------------------
+						
+						const body = {} as IDataObject;
+						body.
+
+						responseData = await pinchApiRequest.call(this, 'POST', '/payment-links', body, {});
 					}
 				}
 			} catch (error) {

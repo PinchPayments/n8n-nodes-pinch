@@ -47,4 +47,4 @@ export async function pinchApiRequest(
 	}
 
 	return await this.helpers.requestWithAuthentication.call(this, 'pinchApi', options);
-}
+};
