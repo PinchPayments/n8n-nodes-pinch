@@ -14,11 +14,13 @@ import {
 	paymentFields
 	// tokenFields,
 	// tokenOperations,
+	// paymentLinkFields,
+	// paymentLinkOperations,
 } from './descriptions';
 
 import { pinchApiRequest } from './helpers';
 import { isEmpty } from 'lodash';
-import { paymentLinkFields, paymentLinkOperations } from './descriptions/PaymentLinkDescription';
+//import { paymentLinkFields, paymentLinkOperations } from './descriptions/PaymentLinkDescription';
 
 export class Pinch implements INodeType {
 	description: INodeTypeDescription = {
@@ -60,10 +62,10 @@ export class Pinch implements INodeType {
 						name: 'Payment',
 						value: 'payment',
 					},
-					{
-						name: 'PaymentLink',
-						value: 'payment-link',
-					},
+					// {
+					// 	name: 'PaymentLink',
+					// 	value: 'payment-link',
+					// },
 					// {
 					// 	name: 'Source',
 					// 	value: 'source',
@@ -88,9 +90,9 @@ export class Pinch implements INodeType {
 			...payerOperations,
 			...payerFields,
 			...paymentOperations,
-			...paymentFields,
-			...paymentLinkOperations,
-			...paymentLinkFields
+			...paymentFields
+			//...paymentLinkOperations,
+			//...paymentLinkFields
 		],
 	};
 
