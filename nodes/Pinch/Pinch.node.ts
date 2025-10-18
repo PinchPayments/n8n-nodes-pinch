@@ -11,16 +11,15 @@ import {
 	payerFields,
 	payerOperations,
 	paymentOperations,
-	paymentFields
+	paymentFields,
 	// tokenFields,
 	// tokenOperations,
-	// paymentLinkFields,
-	// paymentLinkOperations,
+	paymentLinkFields,
+	paymentLinkOperations
 } from './descriptions';
 
 import { pinchApiRequest } from './helpers';
 import { isEmpty } from 'lodash';
-//import { paymentLinkFields, paymentLinkOperations } from './descriptions/PaymentLinkDescription';
 
 export class Pinch implements INodeType {
 	description: INodeTypeDescription = {
@@ -62,10 +61,10 @@ export class Pinch implements INodeType {
 						name: 'Payment',
 						value: 'payment',
 					},
-					// {
-					// 	name: 'PaymentLink',
-					// 	value: 'payment-link',
-					// },
+					{
+						name: 'PaymentLink',
+						value: 'payment-link',
+					},
 					// {
 					// 	name: 'Source',
 					// 	value: 'source',
@@ -90,9 +89,9 @@ export class Pinch implements INodeType {
 			...payerOperations,
 			...payerFields,
 			...paymentOperations,
-			...paymentFields
-			//...paymentLinkOperations,
-			//...paymentLinkFields
+			...paymentFields,
+			...paymentLinkOperations,
+			...paymentLinkFields
 		],
 	};
 
@@ -157,13 +156,12 @@ export class Pinch implements INodeType {
 					// *********************************************************************
 					//                             payment
 					// *********************************************************************
-
-					// https://docs.getpinch.com.au/reference/get-payment
-
+					
 					if (operation === 'get') {
 						// ----------------------------------
 						//          payment: get
 						// ----------------------------------
+						// https://docs.getpinch.com.au/reference/get-payment
 
 						const paymentId = this.getNodeParameter('paymentId', i);
 						responseData = await pinchApiRequest.call(
@@ -192,12 +190,11 @@ export class Pinch implements INodeType {
 					//                             source
 					// *********************************************************************
 
-					// https://docs.getpinch.com.au/reference/create-payment-source
-
 					// if (operation === 'create') {
 					// 	// ----------------------------------
 					// 	//         source: create
 					// 	// ----------------------------------
+					// https://docs.getpinch.com.au/reference/create-payment-source
 
 					// 	const customerId = this.getNodeParameter('customerId', i);
 
@@ -240,12 +237,11 @@ export class Pinch implements INodeType {
 					//                             token
 					// *********************************************************************
 
-					// https://docs.getpinch.com.au/reference/tokenise
-
 					if (operation === 'create') {
 						// ----------------------------------
 						//          token: create
 						// ----------------------------------
+						// https://docs.getpinch.com.au/reference/tokenise
 
 						const type = this.getNodeParameter('type', i);
 						const body = {} as IDataObject;
@@ -275,11 +271,57 @@ export class Pinch implements INodeType {
 						// ----------------------------------
 						//          payment-link: create
 						// ----------------------------------
+						// https://docs.getpinch.com.au/reference/create-payment-link
 						
-						const body = {} as IDataObject;
-						body.
+						const body = {
+							amount: this.getNodeParameter('amount', i),
+							payerId: this.getNodeParameter('payerId', i),
+							description: this.getNodeParameter('description', i)
+						} as IDataObject;
 
 						responseData = await pinchApiRequest.call(this, 'POST', '/payment-links', body, {});
+					}
+					else if (operation === 'get') {
+						// ----------------------------------
+						//          payment-links: get
+						// ----------------------------------
+
+						const paymentLinkId = this.getNodeParameter('paymentLinkId', i);
+						responseData = await pinchApiRequest.call(
+							this,
+							'GET',
+							`/payment-links/${paymentLinkId}`,
+							{},
+							{},
+						);
+					}
+					else if (operation === 'get-all') {
+						// ----------------------------------
+						//          payment-links: get-all
+						// ----------------------------------
+
+						responseData = await pinchApiRequest.call(
+							this,
+							'GET',
+							`/payment-links`,
+							{},
+							{},
+						);
+					}
+					else if (operation === 'get-by-payer') {
+						// ----------------------------------
+						//          payment-links: get-by-payer
+						// ----------------------------------
+						// https://docs.getpinch.com.au/reference/get-payment-links-by-payer
+
+						const payerId = this.getNodeParameter('payerId', i);
+						responseData = await pinchApiRequest.call(
+							this,
+							'GET',
+							`/payment-links/payer/${payerId}`,
+							{},
+							{},
+						);
 					}
 				}
 			} catch (error) {
