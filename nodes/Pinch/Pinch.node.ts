@@ -276,7 +276,11 @@ export class Pinch implements INodeType {
 						const body = {
 							amount: this.getNodeParameter('amount', i),
 							payerId: this.getNodeParameter('payerId', i),
-							description: this.getNodeParameter('description', i)
+							description: this.getNodeParameter('description', i),
+							currency: this.getNodeParameter('currency', i),
+							linkExpiryDate: this.getNodeParameter('linkExpiryDate', i),
+							allowedPaymentMethods: this.getNodeParameter('allowedPaymentMethods', i),
+							surchargedPaymentMethods: this.getNodeParameter('surchargedPaymentMethods', i)
 						} as IDataObject;
 
 						responseData = await pinchApiRequest.call(this, 'POST', '/payment-links', body, {});
@@ -285,6 +289,7 @@ export class Pinch implements INodeType {
 						// ----------------------------------
 						//          payment-links: get
 						// ----------------------------------
+						// https://docs.getpinch.com.au/reference/get-payment-link
 
 						const paymentLinkId = this.getNodeParameter('paymentLinkId', i);
 						responseData = await pinchApiRequest.call(
@@ -299,6 +304,7 @@ export class Pinch implements INodeType {
 						// ----------------------------------
 						//          payment-links: get-all
 						// ----------------------------------
+						// https://docs.getpinch.com.au/reference/get-payment-links
 
 						responseData = await pinchApiRequest.call(
 							this,

@@ -45,6 +45,7 @@ export const paymentLinkFields: INodeProperties[] = [
 	// ----------------------------------
 	//          payment-link: create
 	// ----------------------------------
+	// https://docs.getpinch.com.au/reference/create-payment-link
 	{
 		displayName: 'Amount',
 		name: 'amount',
@@ -80,6 +81,82 @@ export const paymentLinkFields: INodeProperties[] = [
 		required: true,
 		default: '',
 		description: 'The description of the payment to be made, this will be shown on the payment link page',
+		displayOptions: {
+			show: {
+				resource: ['payment-link'],
+				operation: ['create'],
+			},
+		},
+	},
+	{
+		displayName: 'Currency',
+		name: 'currency',
+		type: 'string',
+		required: false,
+		default: '',
+		description: 'Currency to take payment in (Will default to Merchant currency if not specified)',
+		displayOptions: {
+			show: {
+				resource: ['payment-link'],
+				operation: ['create'],
+			},
+		},
+	},
+	{
+		displayName: 'Link Expiry Date',
+		name: 'linkExpiryDate',
+		type: 'dateTime',
+		required: false,
+		default: '',
+		description: 'DateTime for the Payment Link to expire',
+		displayOptions: {
+			show: {
+				resource: ['payment-link'],
+				operation: ['create'],
+			},
+		},
+	},
+	{
+		displayName: 'Allowed Payment Methods',
+		name: 'allowedPaymentMethods',
+		type: 'multiOptions',
+		required: true,
+		default: '',
+		description: 'List of Payment Methods that can be used to take Payment. (Options are `credit-card` and `bank-account`)',
+		options: [
+			{
+				name: 'Credit Card',
+				value: 'credit-card',
+			},
+			{
+				name: 'Bank Account',
+				value: 'bank-account',
+			},
+		],
+		displayOptions: {
+			show: {
+				resource: ['payment-link'],
+				operation: ['create'],
+			},
+		},
+	},
+	{
+		displayName: 'Surcharged Payment Methods',
+		name: 'surchargedPaymentMethods',
+		type: 'multiOptions',
+		required: true,
+		default: '',
+		description: 'List of Payment Methods that will have surcharging applied. (Options are `credit-card` and `bank-account`)',
+		options: [
+			{
+				name: 'Credit Card',
+				value: 'credit-card',
+			},
+			{
+				name: 'Bank Account',
+				value: 'bank-account',
+			},
+		],
 		displayOptions: {
 			show: {
 				resource: ['payment-link'],
