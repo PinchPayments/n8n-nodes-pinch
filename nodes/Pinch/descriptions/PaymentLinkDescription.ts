@@ -30,12 +30,12 @@ export const paymentLinkOperations: INodeProperties[] = [
 				name: 'Get By Payer',
 				value: 'get-by-payer',
 				description: 'Get payment Links by Payer',
-				action: 'Get payment links by Payer',
+				action: 'Get payment links by payer',
 			}
 		],
 		displayOptions: {
 			show: {
-				resource: ['payment'],
+				resource: ['payment-link'],
 			},
 		},
 	},
@@ -92,7 +92,6 @@ export const paymentLinkFields: INodeProperties[] = [
 		displayName: 'Currency',
 		name: 'currency',
 		type: 'string',
-		required: false,
 		default: '',
 		description: 'Currency to take payment in (Will default to Merchant currency if not specified)',
 		displayOptions: {
@@ -106,7 +105,6 @@ export const paymentLinkFields: INodeProperties[] = [
 		displayName: 'Link Expiry Date',
 		name: 'linkExpiryDate',
 		type: 'dateTime',
-		required: false,
 		default: '',
 		description: 'DateTime for the Payment Link to expire',
 		displayOptions: {
@@ -121,8 +119,8 @@ export const paymentLinkFields: INodeProperties[] = [
 		name: 'allowedPaymentMethods',
 		type: 'multiOptions',
 		required: true,
-		default: '',
-		description: 'List of Payment Methods that can be used to take Payment. (Options are `credit-card` and `bank-account`)',
+		default: ['credit-card'],
+		description: 'List of Payment Methods that can be used to take Payment. (Options are `credit-card` and `bank-account`).',
 		options: [
 			{
 				name: 'Credit Card',
@@ -144,9 +142,8 @@ export const paymentLinkFields: INodeProperties[] = [
 		displayName: 'Surcharged Payment Methods',
 		name: 'surchargedPaymentMethods',
 		type: 'multiOptions',
-		required: true,
-		default: '',
-		description: 'List of Payment Methods that will have surcharging applied. (Options are `credit-card` and `bank-account`)',
+		default: [],
+		description: 'List of Payment Methods that will have surcharging applied. (Options are `credit-card` and `bank-account`).',
 		options: [
 			{
 				name: 'Credit Card',
