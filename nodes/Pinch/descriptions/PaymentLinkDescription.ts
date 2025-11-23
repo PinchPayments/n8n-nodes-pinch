@@ -89,6 +89,20 @@ export const paymentLinkFields: INodeProperties[] = [
 		},
 	},
 	{
+		displayName: 'Return Url',
+		name: 'returnUrl',
+		type: 'string',
+		required: true,
+		default: '',
+		description: 'URL to redirect the user to once the payment has been completed. Parameters for paymentLinkId and paymentId will be added to redirected URL.',
+		displayOptions: {
+			show: {
+				resource: ['payment-link'],
+				operation: ['create'],
+			},
+		},
+	},
+	{
 		displayName: 'Currency',
 		name: 'currency',
 		type: 'string',

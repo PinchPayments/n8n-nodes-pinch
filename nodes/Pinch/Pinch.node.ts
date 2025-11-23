@@ -62,7 +62,7 @@ export class Pinch implements INodeType {
 						value: 'payment',
 					},
 					{
-						name: 'PaymentLink',
+						name: 'Payment Link',
 						value: 'payment-link',
 					},
 					// {
@@ -82,7 +82,7 @@ export class Pinch implements INodeType {
 					// 	value: 'transfer',
 					// },
 				],
-				default: 'payer',
+				default: 'payment-link',
 			},
 			// ...tokenOperations,
 			// ...tokenFields,
@@ -277,6 +277,7 @@ export class Pinch implements INodeType {
 							amount: this.getNodeParameter('amount', i),
 							payerId: this.getNodeParameter('payerId', i),
 							description: this.getNodeParameter('description', i),
+							returnUrl: this.getNodeParameter('returnUrl', i),
 							currency: this.getNodeParameter('currency', i),
 							linkExpiryDate: this.getNodeParameter('linkExpiryDate', i),
 							allowedPaymentMethods: this.getNodeParameter('allowedPaymentMethods', i),
