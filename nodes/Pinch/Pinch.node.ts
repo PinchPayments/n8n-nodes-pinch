@@ -19,7 +19,6 @@ import {
 } from './descriptions';
 
 import { pinchApiRequest } from './helpers';
-import { isEmpty } from 'lodash';
 
 export class Pinch implements INodeType {
 	description: INodeTypeDescription = {
@@ -135,18 +134,17 @@ export class Pinch implements INodeType {
 						//          payer: create
 						// ----------------------------------
 						const body = {
-							name: this.getNodeParameter('name', i),
+							fullName: this.getNodeParameter('fullName', i),
+							firstName: this.getNodeParameter('firstName', i),
+							lastName: this.getNodeParameter('lastName', i),
+							emailAddress: this.getNodeParameter('emailAddress', i),
+							mobileNumber: this.getNodeParameter('mobileNumber', i),
+							metadata: this.getNodeParameter('metadata', i),
 						} as IDataObject;
-
-						const additionalFields = this.getNodeParameter('additionalFields', i);
-
-						if (!isEmpty(additionalFields)) {
-							Object.assign(body, additionalFields);
-						}
 
 						responseData = await pinchApiRequest.call(
 							this,
-							'GET',
+							'POST',
 							'/payers/',
 							body,
 							{},
