@@ -11,9 +11,11 @@ import {
 	payerFields,
 	payerOperations,
 	paymentOperations,
-	paymentFields
+	paymentFields,
 	// tokenFields,
 	// tokenOperations,
+	paymentLinkFields,
+	paymentLinkOperations
 } from './descriptions';
 
 import { pinchApiRequest } from './helpers';
@@ -58,6 +60,10 @@ export class Pinch implements INodeType {
 						name: 'Payment',
 						value: 'payment',
 					},
+					{
+						name: 'Payment Link',
+						value: 'payment-link',
+					},
 					// {
 					// 	name: 'Source',
 					// 	value: 'source',
@@ -75,14 +81,16 @@ export class Pinch implements INodeType {
 					// 	value: 'transfer',
 					// },
 				],
-				default: 'payer',
+				default: 'payment-link',
 			},
 			// ...tokenOperations,
 			// ...tokenFields,
 			...payerOperations,
 			...payerFields,
 			...paymentOperations,
-			...paymentFields
+			...paymentFields,
+			...paymentLinkOperations,
+			...paymentLinkFields
 		],
 	};
 
@@ -121,18 +129,37 @@ export class Pinch implements INodeType {
 							{},
 							{},
 						);
+					} else if (operation == 'create') {
+						// ----------------------------------
+						//          payer: create
+						// ----------------------------------
+						const body = {
+							fullName: this.getNodeParameter('fullName', i),
+							firstName: this.getNodeParameter('firstName', i),
+							lastName: this.getNodeParameter('lastName', i),
+							emailAddress: this.getNodeParameter('emailAddress', i),
+							mobileNumber: this.getNodeParameter('mobileNumber', i),
+							metadata: this.getNodeParameter('metadata', i),
+						} as IDataObject;
+
+						responseData = await pinchApiRequest.call(
+							this,
+							'POST',
+							'/payers/',
+							body,
+							{},
+						);
 					}
 				} else if (resource === 'payment') {
 					// *********************************************************************
 					//                             payment
 					// *********************************************************************
-
-					// https://docs.getpinch.com.au/reference/get-payment
-
+					
 					if (operation === 'get') {
 						// ----------------------------------
 						//          payment: get
 						// ----------------------------------
+						// https://docs.getpinch.com.au/reference/get-payment
 
 						const paymentId = this.getNodeParameter('paymentId', i);
 						responseData = await pinchApiRequest.call(
@@ -161,12 +188,11 @@ export class Pinch implements INodeType {
 					//                             source
 					// *********************************************************************
 
-					// https://docs.getpinch.com.au/reference/create-payment-source
-
 					// if (operation === 'create') {
 					// 	// ----------------------------------
 					// 	//         source: create
 					// 	// ----------------------------------
+					// https://docs.getpinch.com.au/reference/create-payment-source
 
 					// 	const customerId = this.getNodeParameter('customerId', i);
 
@@ -209,12 +235,11 @@ export class Pinch implements INodeType {
 					//                             token
 					// *********************************************************************
 
-					// https://docs.getpinch.com.au/reference/tokenise
-
 					if (operation === 'create') {
 						// ----------------------------------
 						//          token: create
 						// ----------------------------------
+						// https://docs.getpinch.com.au/reference/tokenise
 
 						const type = this.getNodeParameter('type', i);
 						const body = {} as IDataObject;
@@ -235,6 +260,73 @@ export class Pinch implements INodeType {
 						};
 
 						responseData = await pinchApiRequest.call(this, 'POST', '/tokens', body, {});
+					}
+				} else if (resource === 'payment-link') {
+					// *********************************************************************
+					//                             payment-link
+					// *********************************************************************
+					if (operation === 'create') {
+						// ----------------------------------
+						//          payment-link: create
+						// ----------------------------------
+						// https://docs.getpinch.com.au/reference/create-payment-link
+						
+						const body = {
+							amount: this.getNodeParameter('amount', i),
+							payerId: this.getNodeParameter('payerId', i),
+							description: this.getNodeParameter('description', i),
+							returnUrl: this.getNodeParameter('returnUrl', i),
+							currency: this.getNodeParameter('currency', i),
+							linkExpiryDate: this.getNodeParameter('linkExpiryDate', i),
+							allowedPaymentMethods: this.getNodeParameter('allowedPaymentMethods', i),
+							surchargedPaymentMethods: this.getNodeParameter('surchargedPaymentMethods', i)
+						} as IDataObject;
+
+						responseData = await pinchApiRequest.call(this, 'POST', '/payment-links', body, {});
+					}
+					else if (operation === 'get') {
+						// ----------------------------------
+						//          payment-links: get
+						// ----------------------------------
+						// https://docs.getpinch.com.au/reference/get-payment-link
+
+						const paymentLinkId = this.getNodeParameter('paymentLinkId', i);
+						responseData = await pinchApiRequest.call(
+							this,
+							'GET',
+							`/payment-links/${paymentLinkId}`,
+							{},
+							{},
+						);
+					}
+					else if (operation === 'get-all') {
+						// ----------------------------------
+						//          payment-links: get-all
+						// ----------------------------------
+						// https://docs.getpinch.com.au/reference/get-payment-links
+
+						responseData = await pinchApiRequest.call(
+							this,
+							'GET',
+							`/payment-links`,
+							{},
+							{},
+						);
+					}
+					else if (operation === 'get-by-payer') {
+						// ----------------------------------
+						//          payment-links: get-by-payer
+						// ----------------------------------
+						// https://docs.getpinch.com.au/reference/get-payment-links-by-payer
+
+						const payerId = this.getNodeParameter('payerId', i);
+						responseData = await pinchApiRequest.call(
+							this,
+							'GET',
+							`/payment-links/payer/${payerId}`,
+							{},
+							{},
+						);
 					}
 				}
 			} catch (error) {

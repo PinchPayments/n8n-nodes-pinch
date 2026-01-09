@@ -1,6 +1,6 @@
 {
   "name": "n8n-nodes-pinch",
-  "version": "0.1.5",
+  "version": "0.2.0",
   "description": "n8n nodes for interacting with the Pinch Payments API",
   "keywords": [
     "n8n-community-node-package"
@@ -17,12 +17,13 @@
   },
   "main": "index.js",
   "scripts": {
-    "build": "tsc && gulp build:icons",
-    "dev": "tsc --watch",
-    "format": "prettier nodes credentials --write",
-    "lint": "eslint nodes credentials package.json",
-    "lintfix": "eslint nodes credentials package.json --fix",
-    "prepublishOnly": "npm run build && eslint -c .eslintrc.prepublish.js nodes credentials package.json"
+    "build": "n8n-node build",
+    "build:watch": "tsc --watch",
+    "dev": "n8n-node dev",
+    "lint": "n8n-node lint",
+    "lint:fix": "n8n-node lint --fix",
+    "release": "n8n-node release",
+    "prepublishOnly": "n8n-node prerelease"
   },
   "files": [
     "dist"
@@ -38,14 +39,12 @@
     ]
   },
   "devDependencies": {
-    "@types/node": "^22.5.2",
-    "@typescript-eslint/parser": "^7.15.0",
-    "eslint": "^8.56.0",
-    "eslint-plugin-n8n-nodes-base": "^1.16.1",
-    "gulp": "^4.0.2",
-    "n8n-workflow": "*",
-    "prettier": "^3.3.2",
-    "typescript": "^5.5.3"
+    "@n8n/node-cli": "*",
+    "@types/lodash": "^4.17.21",
+    "eslint": "9.32.0",
+    "prettier": "3.6.2",
+    "release-it": "^19.0.4",
+    "typescript": "5.9.2"
   },
   "peerDependencies": {
     "n8n-workflow": "*"

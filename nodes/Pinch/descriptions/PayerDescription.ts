@@ -8,12 +8,12 @@ export const payerOperations: INodeProperties[] = [
 		noDataExpression: true,
 		default: 'get',
 		options: [
-			// {
-			// 	name: 'Create',
-			// 	value: 'create',
-			// 	description: 'Create a payer',
-			// 	action: 'Create a payer',
-			// },
+			{
+				name: 'Create',
+				value: 'create',
+				description: 'Create a payer',
+				action: 'Create a payer',
+			},
 			{
 				name: 'Get',
 				value: 'get',
@@ -47,4 +47,61 @@ export const payerFields: INodeProperties[] = [
 			},
 		},
 	},
+	// ----------------------------------
+	//          payer: create
+	// ----------------------------------
+	{
+		displayName: 'Full Name',
+		name: 'fullName',
+		type: 'string',
+		required: true,
+		default: '',
+		description: 'Full name or business name of the payer to create',
+		displayOptions: {
+			show: {
+				resource: ['payer'],
+				operation: ['create'],
+			},
+		},
+	},
+	{
+		displayName: 'Email Address',
+		name: 'emailAddress',
+		type: 'string',
+		placeholder: 'name@email.com',
+		default: '',
+		description: 'Email of the payer to create',
+		displayOptions: {
+			show: {
+				resource: ['payer'],
+				operation: ['create'],
+			},
+		},
+	},
+	{
+		displayName: 'Mobile Number',
+		name: 'mobileNumber',
+		type: 'string',
+		default: '',
+		description: 'Mobile Number of the payer to create',
+		displayOptions: {
+			show: {
+				resource: ['payer'],
+				operation: ['create'],
+			},
+		},
+	},
+	{
+		displayName: 'Metadata',
+		name: 'metadata',
+		type: 'string',
+		default: '',
+		description: 'Additional Metadata to provide with the Payer',
+		displayOptions: {
+			show: {
+				resource: ['payer'],
+				operation: ['create'],
+			},
+		},
+	}
 ];

@@ -30,9 +30,8 @@ _None yet but the credentials can be used to make Rest API calls_
 * Register for a [Pinch Developer Account](https://auth.getpinch.com.au/Register)
 * Navigate to the API Keys page
 * Create an Application
-* Copy Application Id and Secret Key then paste them into n8n credential
-* Click Save (this will test the credentials)
-* Account connected
+* Copy Application Id and Secret Key then paste them into n8n credential (Make sure to use the development keys for test API and live keys for live API)
+* Click Save (this will test the credentials automatically)
 
 ## Compatibility
 
@@ -48,6 +47,15 @@ Add the Pinch Trigger node to set up webhook events with the Pinch API.
 * [Pinch API Docs](https://docs.getpinch.com.au)
 * [Pinch Developer Pricing](https://getpinch.com.au/features/payments-api-for-developers#pricing)
 
+## Development
+
+- Open folder in VS Code devcontainer
+- Make code changes
+- Run `npm run dev` to run locally (will start up an n8n instance with custom nodes installed)
+- Run `npm run build` to build package
+- Publish to npm
+
 ## Version history
 
 First release of the Pinch node with the webhook trigger node and the credentials.
+* v0.2.0 - Added support for Payment Links
