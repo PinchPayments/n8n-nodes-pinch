@@ -4,7 +4,7 @@ import type {
 	IDataObject,
 	ILoadOptionsFunctions,
 	IHttpRequestMethods,
-	IRequestOptions,
+	IHttpRequestOptions,
 } from 'n8n-workflow';
 
 /**
@@ -25,11 +25,10 @@ export async function pinchApiRequest(
 		method,
 		body: body,
 		qs: query,
-		//uri: 'https://n8n.dkdevelopment.net:2096/webhook/64da1b6c-ff12-4967-8165-53a0ed67ca6b',
-		uri: `https://api.getpinch.com.au/${credentials.environment}/${endpoint}`,
+		url: `https://api.getpinch.com.au/${credentials.environment}/${endpoint}`,
 		json: true,
 		headers: headers,
-	} satisfies IRequestOptions;
+	} satisfies IHttpRequestOptions;
 
 	if (options.qs && Object.keys(options.qs).length === 0) {
 		delete options.qs;
@@ -46,5 +45,5 @@ export async function pinchApiRequest(
 		options.headers['Content-Type'] = 'application/json';
 	}
 
-	return await this.helpers.requestWithAuthentication.call(this, 'pinchApi', options);
+	return await this.helpers.httpRequestWithAuthentication.call(this, 'pinchApi', options);
 };

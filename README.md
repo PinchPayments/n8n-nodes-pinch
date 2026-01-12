@@ -53,7 +53,7 @@ Add the Pinch Trigger node to set up webhook events with the Pinch API.
 - Make code changes
 - Run `npm run dev` to run locally (will start up an n8n instance with custom nodes installed)
 - Run `npm run build` to build package
-- Publish to npm
+- Publish to npm with `npm run releaseit`
 
 ## Version history
 

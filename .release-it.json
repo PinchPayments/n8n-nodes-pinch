@@ -1,0 +1,14 @@
+{
+  "$schema": "https://unpkg.com/release-it@19/schema/release-it.json",
+  "git": {
+    "requireUpstream": false,
+    "commit": false,
+    "tag": false,
+    "push": false,
+    "requireCleanWorkingDir": false,
+    "requireCommitsFail": false
+  },
+  "github": {
+    "release": false
+  }
+}
