@@ -8,11 +8,11 @@ Pinch Payments is a PCI Compliant, Australian payments platform offering automat
 
 [Installation](#installation)  
 [Operations](#operations)  
-[Credentials](#credentials)  <!-- delete if no auth needed -->  
+[Credentials](#credentials)  
 [Compatibility](#compatibility)  
-[Usage](#usage)  <!-- delete if not using this section -->  
+[Usage](#usage)  
 [Resources](#resources)  
-[Version history](#version-history)  <!-- delete if not using this section -->  
+[Version history](#version-history)  
 
 ## Installation
 
@@ -22,7 +22,58 @@ Use the package at `n8n-nodes-pinch`.
 
 ## Operations
 
-_None yet but the credentials can be used to make Rest API calls_
+This package includes two nodes:
+
+### Pinch Node
+
+The main action node for interacting with the Pinch Payments API.
+
+#### Payer Operations
+
+| Operation | Description |
+|-----------|-------------|
+| **Create** | Create a new payer with full name, email, mobile number, and metadata |
+| **Get** | Retrieve a payer by their ID (pyr_*) |
+| **List** | List payers with pagination and optional search filter by name or email |
+
+#### Payment Operations
+
+| Operation | Description |
+|-----------|-------------|
+| **Get** | Retrieve a payment by its ID (pmt_*) |
+| **For Payer** | Get all payments associated with a specific payer |
+
+#### Payment Link Operations
+
+| Operation | Description |
+|-----------|-------------|
+| **Create** | Create a payment link with amount, description, return URL, allowed payment methods (credit card/bank account), optional surcharging, currency, and expiry date |
+| **Get** | Retrieve a payment link by its ID (plk_*) |
+| **Get All** | List all payment links with pagination |
+| **Get By Payer** | List payment links for a specific payer with pagination |
+
+### Pinch Trigger Node
+
+A webhook trigger node that listens for real-time events from Pinch.
+
+| Event | Description |
+|-------|-------------|
+| **All** | Listen to all event types |
+| **Payer Created** | Triggered when a new payer record is created |
+| **Payer Updated** | Triggered when a payer record is updated |
+| **Subscription Created** | Triggered when a subscription is created for a payer |
+| **Subscription Cancelled** | Triggered when a subscription is cancelled |
+| **Subscription Complete** | Triggered when a subscription runs to completion |
+| **Payment Created** | Triggered when a payment is created (via API or subscription) |
+| **Realtime Payment** | Triggered when a realtime payment is executed |
+| **Scheduled Process** | Triggered when scheduled payments are processed (daily on business days) |
+| **Bank Results** | Triggered when bank account transactions return (may include dishonour status) |
+| **Transfer** | Triggered when a transfer is created to settle funds to a merchant |
+| **Refund Created** | Triggered when a refund is created |
+| **Refund Updated** | Triggered when a refund status is updated |
+| **Dispute Created** | Triggered when a dispute is created |
+| **Dispute Updated** | Triggered when a dispute is updated |
+| **Compliance Updated** | Triggered when merchant compliance information changes (e.g., bank account update, document upload) |
 
 ## Credentials
 
@@ -39,7 +90,20 @@ Tested with v1.57.0 and up but may work in previous versions.
 
 ## Usage
 
-Add the Pinch Trigger node to set up webhook events with the Pinch API.
+### Using the Pinch Node
+
+1. Add the **Pinch** node to your workflow
+2. Select a resource (Payer, Payment, or Payment Link)
+3. Choose the operation you want to perform
+4. Fill in the required fields
+5. Execute the workflow
+
+### Using the Pinch Trigger Node
+
+1. Add the **Pinch Trigger** node as the starting node of your workflow
+2. Select the events you want to listen for (or choose "All" for all events)
+3. Activate the workflow - this will automatically register a webhook with Pinch
+4. When events occur in Pinch, your workflow will be triggered with the event data
 
 ## Resources
 
@@ -53,9 +117,9 @@ Add the Pinch Trigger node to set up webhook events with the Pinch API.
 - Make code changes
 - Run `npm run dev` to run locally (will start up an n8n instance with custom nodes installed)
 - Run `npm run build` to build package
-- Publish to npm with `npm run releaseit`
+- Publish to npm with `npm run releaseit` (required npm auth)
 
 ## Version history
 
-First release of the Pinch node with the webhook trigger node and the credentials.
 * v0.2.0 - Added support for Payment Links
+* v0.1.0 - First release of the Pinch node with the webhook trigger node and the credentials.

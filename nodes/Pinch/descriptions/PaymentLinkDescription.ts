@@ -193,6 +193,35 @@ export const paymentLinkFields: INodeProperties[] = [
 		},
 	},
 	// ----------------------------------
+	//          payment-link: get-all
+	// ----------------------------------
+	{
+		displayName: 'Page',
+		name: 'page',
+		type: 'number',
+		default: 1,
+		description: 'The current page number to request',
+		displayOptions: {
+			show: {
+				resource: ['payment-link'],
+				operation: ['get-all'],
+			},
+		},
+	},
+	{
+		displayName: 'Page Size',
+		name: 'pageSize',
+		type: 'number',
+		default: null,
+		description: 'How many items to return for each page. Maximum 500.',
+		displayOptions: {
+			show: {
+				resource: ['payment-link'],
+				operation: ['get-all'],
+			},
+		},
+	},
+	// ----------------------------------
 	//          payment-link: get-by-payer
 	// ----------------------------------
 	{
@@ -208,5 +237,31 @@ export const paymentLinkFields: INodeProperties[] = [
 				operation: ['get-by-payer'],
 			},
 		},
-	}
+	},
+	{
+		displayName: 'Page',
+		name: 'page',
+		type: 'number',
+		default: 1,
+		description: 'The current page number to request',
+		displayOptions: {
+			show: {
+				resource: ['payment-link'],
+				operation: ['get-by-payer'],
+			},
+		},
+	},
+	{
+		displayName: 'Page Size',
+		name: 'pageSize',
+		type: 'number',
+		default: null,
+		description: 'How many items to return for each page. Maximum 500.',
+		displayOptions: {
+			show: {
+				resource: ['payment-link'],
+				operation: ['get-by-payer'],
+			},
+		},
+	},
 ];

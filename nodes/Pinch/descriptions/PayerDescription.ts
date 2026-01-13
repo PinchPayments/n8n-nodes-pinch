@@ -20,6 +20,12 @@ export const payerOperations: INodeProperties[] = [
 				description: 'Get a payer',
 				action: 'Get a payer',
 			},
+			{
+				name: 'List',
+				value: 'list',
+				description: 'List payers',
+				action: 'List payers',
+			},
 		],
 		displayOptions: {
 			show: {
@@ -44,6 +50,48 @@ export const payerFields: INodeProperties[] = [
 			show: {
 				resource: ['payer'],
 				operation: ['get'],
+			},
+		},
+	},
+	// ----------------------------------
+	//          payer: list
+	// ----------------------------------
+	{
+		displayName: 'Page',
+		name: 'page',
+		type: 'number',
+		default: 1,
+		description: 'The current page number to request',
+		displayOptions: {
+			show: {
+				resource: ['payer'],
+				operation: ['list'],
+			},
+		},
+	},
+	{
+		displayName: 'Page Size',
+		name: 'pageSize',
+		type: 'number',
+		default: null,
+		description: 'How many items to return for each page. Maximum 500.',
+		displayOptions: {
+			show: {
+				resource: ['payer'],
+				operation: ['list'],
+			},
+		},
+	},
+	{
+		displayName: 'Filter',
+		name: 'filter',
+		type: 'string',
+		default: '',
+		description: 'Optional string filter to search for payers by Name or Email address',
+		displayOptions: {
+			show: {
+				resource: ['payer'],
+				operation: ['list'],
 			},
 		},
 	},

@@ -129,6 +129,24 @@ export class Pinch implements INodeType {
 							{},
 							{},
 						);
+					} else if (operation === 'list') {
+						// ----------------------------------
+						//          payer: list
+						// ----------------------------------
+						
+						const qs = {} as IDataObject;
+
+						qs.page = this.getNodeParameter('page', i);
+						qs.pageSize = this.getNodeParameter('pageSize', i);
+						qs.filter = this.getNodeParameter('filter', i);
+
+						responseData = await pinchApiRequest.call(
+							this,
+							'GET',
+							`/payers`,
+							{},
+							qs,
+						);
 					} else if (operation == 'create') {
 						// ----------------------------------
 						//          payer: create
@@ -304,13 +322,17 @@ export class Pinch implements INodeType {
 						//          payment-links: get-all
 						// ----------------------------------
 						// https://docs.getpinch.com.au/reference/get-payment-links
+						const qs = {} as IDataObject;
+
+						qs.page = this.getNodeParameter('page', i);
+						qs.pageSize = this.getNodeParameter('pageSize', i);
 
 						responseData = await pinchApiRequest.call(
 							this,
 							'GET',
 							`/payment-links`,
 							{},
-							{},
+							qs,
 						);
 					}
 					else if (operation === 'get-by-payer') {
@@ -318,6 +340,10 @@ export class Pinch implements INodeType {
 						//          payment-links: get-by-payer
 						// ----------------------------------
 						// https://docs.getpinch.com.au/reference/get-payment-links-by-payer
+						const qs = {} as IDataObject;
+
+						qs.page = this.getNodeParameter('page', i);
+						qs.pageSize = this.getNodeParameter('pageSize', i);
 
 						const payerId = this.getNodeParameter('payerId', i);
 						responseData = await pinchApiRequest.call(
@@ -325,7 +351,7 @@ export class Pinch implements INodeType {
 							'GET',
 							`/payment-links/payer/${payerId}`,
 							{},
-							{},
+							qs,
 						);
 					}
 				}

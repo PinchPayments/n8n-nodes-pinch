@@ -128,11 +128,6 @@ export class PinchTrigger implements INodeType {
 						name: 'Dispute Updated',
 						value: 'dispute-updated',
 						description: 'Occurs whenever a Dispute is updated',
-					},
-					{
-						name: 'Merchant Compliance Updated',
-						value: 'merchant-compliance-updated',
-						description: 'Occurs whenever a Merchants compliance information is updated by a compliance officer, typically this happens when a Merchants verification status changes',
 					}
 				],
 			},
