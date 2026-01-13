@@ -116,8 +116,11 @@ Tested with v1.57.0 and up but may work in previous versions.
 - Open folder in VS Code devcontainer
 - Make code changes
 - Run `npm run dev` to run locally (will start up an n8n instance with custom nodes installed)
+
+## Publishing
+- Clean the dist folder
 - Run `npm run build` to build package
-- Publish to npm with `npm run releaseit` (required npm auth)
+- Publish to npm with `npm run releaseit` (requires npm auth)
 
 ## Version history
 
