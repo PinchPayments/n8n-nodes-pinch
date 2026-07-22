@@ -153,8 +153,6 @@ export class Pinch implements INodeType {
 						// ----------------------------------
 						const body = {
 							fullName: this.getNodeParameter('fullName', i),
-							firstName: this.getNodeParameter('firstName', i),
-							lastName: this.getNodeParameter('lastName', i),
 							emailAddress: this.getNodeParameter('emailAddress', i),
 							mobileNumber: this.getNodeParameter('mobileNumber', i),
 							metadata: this.getNodeParameter('metadata', i),
