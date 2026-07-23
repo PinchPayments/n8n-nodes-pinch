@@ -295,7 +295,8 @@ export class Pinch implements INodeType {
 							currency: this.getNodeParameter('currency', i),
 							linkExpiryDate: this.getNodeParameter('linkExpiryDate', i),
 							allowedPaymentMethods: this.getNodeParameter('allowedPaymentMethods', i),
-							surchargedPaymentMethods: this.getNodeParameter('surchargedPaymentMethods', i)
+							surchargedPaymentMethods: this.getNodeParameter('surchargedPaymentMethods', i),
+							metadata: this.getNodeParameter('metadata', i),
 						} as IDataObject;
 
 						responseData = await pinchApiRequest.call(this, 'POST', '/payment-links', body, {});

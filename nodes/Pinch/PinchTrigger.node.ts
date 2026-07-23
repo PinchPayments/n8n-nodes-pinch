@@ -100,6 +100,11 @@ export class PinchTrigger implements INodeType {
 						description: 'Occurs whenever a realtime payment is executed',
 					},
 					{
+						name: 'Payment Link Attempted',
+						value: 'payment-link-attempted',
+						description: "Occurs when a customer attempts to pay a payment link, both approved and declined"
+					},
+					{
 						name: 'Payment Created',
 						value: 'payment-created',
 						description: 'Occurs whenever a Payment is created in Pinch. This could be done through the Save Payment endpoint or when a Subscription creates its payments.',

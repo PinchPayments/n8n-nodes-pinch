@@ -175,6 +175,20 @@ export const paymentLinkFields: INodeProperties[] = [
 			},
 		},
 	},
+	{
+		displayName: 'Metadata',
+		name: 'metadata',
+		type: 'string',
+		required: false,
+		default: '',
+		description: 'Additional Metadata to provide with the Payment Link',
+		displayOptions: {
+			show: {
+				resource: ['payment-link'],
+				operation: ['create'],
+			},
+		},
+	},
 	// ----------------------------------
 	//          payment-link: get
 	// ----------------------------------
