@@ -1,6 +1,6 @@
 {
   "name": "n8n-nodes-pinch",
-  "version": "0.2.6",
+  "version": "0.2.10",
   "description": "n8n nodes for interacting with the Pinch Payments API",
   "keywords": [
     "n8n-community-node-package"
@@ -40,6 +40,7 @@
   "devDependencies": {
     "@n8n/node-cli": "*",
     "@types/lodash": "^4.17.21",
+    "@types/node": "^26.1.1",
     "eslint": "9.32.0",
     "prettier": "3.6.2",
     "release-it": "^19.0.4",
